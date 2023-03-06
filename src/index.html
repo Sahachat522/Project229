@@ -202,7 +202,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Task</h5>
+          <h5 class="modal-title">Add Task</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -211,20 +211,20 @@
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
-              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title">
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="handleTitle()">
             </div>
             <div class="form-group" >
               <label for="startDate">Due Date</label>
-              <input id="startDate" class="form-control" rows="2"  type="date"/>
+              <input id="startDate" class="form-control" rows="2"  type="date" onchange="handleStartDate()"/>
             </di>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="handleTaskDetail()"></textarea>
             </div>
           </form>
         </div>
         <div class="modal-footer" >
-          <button type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" onclick="addTask()" data-bs-dismiss="modal" >Add</button>
+          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" >Add</button>
         </div>
       </div>
     </div>
@@ -232,7 +232,12 @@
 
 
   <script>
-    var cardShow = document.getElementById("card-show")
+    var cardShow = document.getElementById("card-show");
+    const add_btn = document.getElementById("add-btn");
+    var startDate = document.getElementById("startDate");
+    var detail = document.getElementById("taskDetail");
+    var title = document.getElementById("taskTitle");
+    var task = {title:"", detail:"", start: new Date(), status: 'undone', userid:""}
     const cards = [{
       id: 0,
       title: "Task1",
@@ -268,12 +273,23 @@
       detail: "Tast6 Do something Yeah",
       start: '2023-04-02'
     }]
-
-    const addTask = () =>{
-      var due_date = document.getElementById("startDate");
-      var detail = document.getElementById("taskDetail");
-      console.log({start: due_date.value, detail: detail.value})
+    const handleTitle = () =>{
+      task.title = title.value
+      console.log(task)
     }
+    const handleTaskDetail = () =>{
+      task.detail = detail.value
+      console.log(task)
+    }
+    const handleStartDate = () =>{
+      task.start = startDate.value
+      console.log(task)
+    }
+    add_btn.addEventListener('click',async ()=>{
+        console.log(task)
+        const res = await window.electronAPI.addTask(task)
+        console.log(res)
+    })
 
     const calDay = (d) => {
       var date1 = new Date(d);
@@ -348,12 +364,11 @@
   </div>
     `}).join(' ');
     }
-
-
-    window.onload = function () {
-      cardShow.innerHTML = returnCard(cards);
+    window.onload = async function () {
+      const tasks = await window.electronAPI.getTasks()
+      console.log(tasks)
+      cardShow.innerHTML = returnCard(tasks);
     }
-
   </script>
 </body>
 

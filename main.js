@@ -1,7 +1,8 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
 const axios = require('axios')
-const Store = require('electron-store')
+const Store = require('electron-store');
+const { access } = require('fs');
 
 const store = new Store();
 
@@ -28,7 +29,12 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  mainWindow.loadFile('src/login.html')
+  if(!store.get('token')){
+    mainWindow.loadFile('src/login.html')
+  }
+  else{
+    mainWindow.loadFile('src/index.html')
+  }
   mainWindow.on('minimize',function(event){
     event.preventDefault();
     mainWindow.hide();
@@ -91,6 +97,19 @@ ipcMain.handle("register", async (event,data) => {
   console.log(res.data)
   return res.data;
 })
+
+ipcMain.handle("add-task", async (event, data) =>{
+  data.userid = store.get('user_id')
+  console.log(data)
+  return "got it";
+} )
+
+ipcMain.handle("get-tasks", async () =>{
+  const userid = store.get('user_id')
+  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/${userid}`, {headers:{'x-access-token': store.get('token')}});
+  console.log(res.data)
+  return res.data
+} )
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

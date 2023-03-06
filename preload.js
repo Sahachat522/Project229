@@ -3,7 +3,9 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
   login: (payload) => ipcRenderer.invoke('login', payload),
-  register: (payload) => ipcRenderer.invoke('register', payload)
+  register: (payload) => ipcRenderer.invoke('register', payload),
+  addTask: (payload) => ipcRenderer.invoke('add-task', payload),
+  getTasks: () => ipcRenderer.invoke('get-tasks')
 })
 
 // All the Node.js APIs are available in the preload process.
