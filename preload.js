@@ -1,4 +1,9 @@
 // preload.js
+const { contextBridge, ipcRenderer } = require('electron')
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  login: (payload) => ipcRenderer.invoke('doSomethingAxios', payload)
+})
 
 // All the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
@@ -12,3 +17,4 @@ window.addEventListener('DOMContentLoaded', () => {
       replaceText(`${dependency}-version`, process.versions[dependency])
     }
   })
+

@@ -1,5 +1,6 @@
-const { app, BrowserWindow, Tray, Menu } = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
+const axios = require('axios')
 
 const createWindow = () => {
   // Create the browser window.
@@ -24,7 +25,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  mainWindow.loadFile('src/index.html')
+  mainWindow.loadFile('src/login.html')
   mainWindow.on('minimize',function(event){
     event.preventDefault();
     mainWindow.hide();
@@ -58,12 +59,18 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+ipcMain.handle("doSomethingAxios", async (event,data) => {
+  const res = await axios.post("https://barkbark-api-cymdkybzaq-as.a.run.app/login",{email:data.email, password: data.password});
+  // const body = await response.text();
+  console.log(res.data)
+  return res.data;
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
