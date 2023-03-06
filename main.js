@@ -1,6 +1,9 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
 const axios = require('axios')
+const Store = require('electron-store')
+
+const store = new Store();
 
 const createWindow = () => {
   // Create the browser window.
@@ -58,6 +61,9 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  console.log(store.get('token'));
+  console.log(store.get('user_id'));
+  console.log(store.get('username'));
   createWindow()
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -66,8 +72,21 @@ app.whenReady().then(() => {
   })
 })
 
-ipcMain.handle("doSomethingAxios", async (event,data) => {
+ipcMain.handle("login", async (event,data) => {
   const res = await axios.post("https://barkbark-api-cymdkybzaq-as.a.run.app/login",{email:data.email, password: data.password});
+  // const body = await response.text();
+  console.log(res.data)
+  if(res.data.token){
+    store.set('token', res.data.token)
+    store.set('username', res.data.data.username)
+    store.set('user_id', res.data.id)
+    console.log('token save')
+  }
+  return res.data;
+})
+
+ipcMain.handle("register", async (event,data) => {
+  const res = await axios.post("https://barkbark-api-cymdkybzaq-as.a.run.app/register",{username:data.username, email:data.email, password: data.password});
   // const body = await response.text();
   console.log(res.data)
   return res.data;

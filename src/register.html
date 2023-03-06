@@ -75,23 +75,50 @@ a{
     <div class="login-form">
         <form>
             <div class="form-group" >
-                <label for="exampleInputEmail1">Username</label>
-                <input type="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <label for="username">Username</label>
+                <input type="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter email" onchange="handleUserName()">
               </div>
             <div class="form-group" >
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onchange="handleEmail()">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password" onchange="handlePWD()">
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;margin-bottom: 0.5em;background-color:lightgreen;border: none;">Register</button>
+            <button id="regist-btn" type="button" class="btn btn-primary" style="width: 100%;margin-bottom: 0.5em;background-color:lightgreen;border: none;">Register</button>
             <a  style="" href="./login.html">Back to Login Page</a>
           </form>
     </div>
 </div>
 <script>
+    const regist_btn = document.getElementById('regist-btn');
+    var email = document.getElementById('email');
+    var password = document.getElementById('password');
+    var username = document.getElementById('username');
+    var data = {username: "", email:"", password:""}
+
+    const handleEmail = () =>{
+       data.email = email.value
+        console.log(data)
+    }
+    const handlePWD = () =>{
+        data.password = password.value
+        console.log(data)
+    }
+    const handleUserName = () =>{
+        data.username = username.value
+        console.log(data)
+    }
+
+    regist_btn.addEventListener('click',async ()=>{
+        console.log(data)
+        const res = await window.electronAPI.register(data)
+        console.log(res)
+        if(res && (res.status == 'register success')){
+            window.location.href = './login.html'
+        }
+    })
 </script>
 </body>
 
