@@ -176,6 +176,9 @@
       color: white;
       font-size: 1em;
     }
+    .form-group{
+      margin-bottom: 1em;
+    }
   </style>
 </head>
 
@@ -207,12 +210,16 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
+              <label for="taskTitle">Title</label>
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title">
+            </div>
+            <div class="form-group" >
               <label for="startDate">Due Date</label>
-              <input id="startDate" class="form-control" type="date"/>
+              <input id="startDate" class="form-control" rows="2"  type="date"/>
             </di>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail"></textarea>
             </div>
           </form>
         </div>
@@ -333,8 +340,8 @@
           <p>Due : ${card.start}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary"  style="width: 100%;">Done</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
         </div>
       </div>
     </div>
