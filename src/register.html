@@ -50,21 +50,21 @@ a{
 </head>
 <body>
 <div class="login-form-box">
-    <img src="./media/app-icon.png" style="width: 50%;">
+    <!-- <img src="./media/app-icon.png" style="width: 60%;"> -->
     <h2 style="margin-bottom: 1em;">Register</h2>
     <div class="login-form">
         <form>
             <div class="form-group" >
                 <label for="username">Username</label>
-                <input type="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" onchange="handleUserName()">
+                <input type="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" onchange="handleUserName()" required>
               </div>
             <div class="form-group" >
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onchange="handleEmail()">
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onchange="handleEmail()" required>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" onchange="handlePWD()">
+              <input type="password" class="form-control" id="password" placeholder="Password" onchange="handlePWD()" required>
             </div>
             <button id="regist-btn" type="button" class="btn btn-primary" style="width: 100%;margin-bottom: 0.5em;background-color:lightgreen;border: none;">Register</button>
             <a  style="" href="./login.html">Back to Login Page</a>
@@ -92,11 +92,16 @@ a{
     }
 
     regist_btn.addEventListener('click',async ()=>{
-        console.log(data)
-        const res = await window.electronAPI.register(data)
-        console.log(res)
-        if(res && (res.status == 'register success')){
-            window.location.href = './login.html'
+        if(!data.username || !data.email || !data.password){
+          console.log("fill form")
+        }
+        else{
+          console.log(data)
+          const res = await window.electronAPI.register(data)
+          console.log(res)
+          if(res && (res.status == 'register success')){
+              window.location.href = './login.html'
+          }
         }
     })
 </script>

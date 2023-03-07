@@ -1,12 +1,12 @@
 {
-  "name": "Count Due",
-  "productName": "Count Due",
+  "name": "Counties",
+  "productName": "Counties",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-win": "electron-packager . Count Due --overwrite --asar=true --platform=win32 --arch=x64 --icon=app-icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Count Due\""
+    "package-win": "electron-packager . Counties --overwrite --asar=true --platform=win32 --arch=x64 --icon=app-icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Counties\""
   },
   "author": "",
   "license": "ISC",
