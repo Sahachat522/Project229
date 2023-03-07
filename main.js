@@ -30,7 +30,7 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
@@ -126,6 +126,14 @@ ipcMain.handle("done-task", async (event, data) => {
   const task_id = data;
   const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/done/${task_id}`, {headers:{'x-access-token': store.get('token')}});
   console.log(res.data);
+  return res.data
+})
+
+ipcMain.handle("delete-task", async (event, data) => {
+  const task_id = data
+  console.log(data)
+  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/delete/${task_id}`, {headers:{'x-access-token': store.get('token')}});
+  console.log(res.data)
   return res.data
 })
 

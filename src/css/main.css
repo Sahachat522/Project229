@@ -57,21 +57,7 @@
   .sidenav a.logout-btn:hover{
     background-color: rgba(217, 52, 52, 0.57);
   }
-  .modal-content{
-    background-color: #3c3c3c;
-  }
-  .modal-header{
-    background-color: lightcoral;
-    color: #111;
-    -webkit-text-stroke-width: 1px;
-    border-bottom: none;
-  }
-  .modal-body{
-    font-size: 20px;
-  }
-  .modal-footer{
-    border-top:none;
-  }
+
   button.close{
     border-radius: 5em;
     background-color: rgb(242, 106, 106);

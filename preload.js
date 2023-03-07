@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   doneTask: (payload) => ipcRenderer.invoke('done-task', payload),
   getUser: () => ipcRenderer.invoke('get-user'),
   logout: () => ipcRenderer.invoke('logout'),
+  deleteTask: (payload) => ipcRenderer.invoke('delete-task', payload),
   getTasks: () => ipcRenderer.invoke('get-tasks')
 })
 

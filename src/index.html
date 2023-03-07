@@ -127,7 +127,21 @@
       background-color: rgb(117, 51, 51);
       transition-duration: 100ms;
     }
-
+    .modal-header{
+    background-color: lightcoral;
+    color: #111;
+    -webkit-text-stroke-width: 1px;
+    border-bottom: none;
+  }
+    .modal-content{
+    background-color: #3c3c3c;
+  }
+  .modal-body{
+    font-size: 20px;
+  }
+  .modal-footer{
+    border-top:none;
+  }
     .form-group{
       margin-bottom: 1em;
     }
@@ -144,9 +158,9 @@
     const calDay = (d) => {
       var date1 = new Date(d);
       var date2 = new Date();
-      console.log(date2)
+      // console.log(date2)
       var difDate = date1.getTime() - date2.getTime();
-      console.log(difDate / (1000 * 3600 * 24))
+      // console.log(difDate / (1000 * 3600 * 24))
       var days = Math.round(difDate / (1000 * 3600 * 24));
       return days
     }
@@ -168,7 +182,7 @@
       return cards.map(card => {
         var perc = (calDay(card.data.start) / 30) * 100
         perc = perc > 100 ? 99 : perc;
-        console.log(perc)
+        // console.log(perc)
         return `    
         <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${card.id}">
           <div class="single-chart">
@@ -218,6 +232,15 @@
     window.onload = async function () {
       const tasks = await window.electronAPI.getTasks().catch((err)=> window.location.href= "login.html")
       var sort_task = tasks.sort((t1,t2) => new Date(t1.data.start) - new Date(t2.data.start)).filter(t => t.data.status == "undone")
+      var outOfDate = sort_task.filter((t) => calDay(t.data.start) < 0)
+      sort_task = sort_task.filter((t) => calDay(t.data.start) >= 0)
+      var done_task = sort_task.filter((t) => t.data.status == "done")
+      if(outOfDate.length){
+        console.log(outOfDate.length)
+        outOfDate.map(async task  => await window.electronAPI.deleteTask(task.id))
+      }
+      console.log(done_task)
+      console.log(outOfDate)
       console.log(sort_task)
       cardShow.innerHTML += returnCard(sort_task)
       const username = await window.electronAPI.getUser();
