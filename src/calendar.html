@@ -1,127 +1,146 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8' />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script defer src="js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<style>
-body {
-  background-color:rgb(30, 28, 28);
-  font-family: "Lato", sans-serif;
-  color: white;
-}
-body::-webkit-scrollbar {
-    width: 20px;
-    }
-    body::-webkit-scrollbar-corner {
-        background: rgba(0,0,0,0);
-    }
-    body::-webkit-scrollbar-thumb {
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+      body {
+        background-color: rgb(30, 28, 28);
+        font-family: "Lato", sans-serif;
+        color: white;
+      }
+      body::-webkit-scrollbar {
+        width: 20px;
+      }
+      body::-webkit-scrollbar-corner {
+        background: rgba(0, 0, 0, 0);
+      }
+      body::-webkit-scrollbar-thumb {
         background-color: #3c3c3c;
         border-radius: 10px;
-        border: 4px solid rgba(0,0,0,0);
+        border: 4px solid rgba(0, 0, 0, 0);
         background-clip: content-box;
         min-width: 32px;
         min-height: 32px;
-    }
-    body::-webkit-scrollbar-track {
-        background-color: rgba(0,0,0,0);
-    }
+      }
+      body::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0);
+      }
 
-.sidenav {
-  height: 100%;
-  width: 4em;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  text-align: center;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+      .sidenav {
+        height: 100%;
+        width: 4em;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        text-align: center;
+        overflow-x: hidden;
+        padding-top: 25px;
+      }
 
-.sidenav a {
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
+      .sidenav a {
+        text-decoration: none;
+        margin-bottom: 1em;
+        font-size: 18px;
+        color: #d4d3d3;
+        display: block;
+        margin-left: 3px;
+        margin-right: 3px;
+      }
+      .sidenav a:hover {
+        background-color: #525252;
+        color: #f1f1f1;
+        border-radius: 15px;
+      }
+      .sidenav a.active {
+        background-color: rgba(75, 75, 75, 0.215);
+        color: #ffffff;
+        border-radius: 15px;
+      }
 
-.sidenav a:hover {
-  color: #f1f1f1;
-}
+      .main {
+        margin-left: 200px; /* Same as the width of the sidenav */
+      }
 
-.sidenav a:active {
-  color: #f1f1f1;
-}
-
-.main {
-  margin-left: 200px; /* Same as the width of the sidenav */
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-#calendar {
-  max-width: 100%;
-  height: 50em;
-  margin: 0;
-}
-a{
-  color: #f1f1f1;
-  text-decoration: none;
-}
-.fc-daygrid-day-frame:hover{
-  background-color: #dfdfdf;
-}
-</style>
-</head>
-<body>
-
+      @media screen and (max-height: 450px) {
+        .sidenav {
+          padding-top: 15px;
+        }
+        .sidenav a {
+          font-size: 18px;
+        }
+      }
+      #calendar {
+        max-width: 100%;
+        height: 50em;
+        margin: 0;
+      }
+      a {
+        color: #f1f1f1;
+        text-decoration: none;
+      }
+      .fc-daygrid-day-frame:hover {
+        background-color: #dfdfdf;
+      }
+    </style>
+  </head>
+  <body>
     <div class="sidenav">
-        <a href="index.html"><i class="bi bi-house-door"></i></a>
-        <a href="calendar.html"><i class="bi bi-calendar3"></i></i></i></a>
-        <a href="#"><i class="bi bi-gear"></i></i></a>
+      <a href="index.html"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
+      <a href="calendar.html"  class="active"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px;"></i></a>
     </div>
 
-<div class="container" style="margin-top: 1em;margin-left: 10em;margin-right: 7em;">
-  <div id='calendar'></div>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    window.onload = async function () {
-        const tasks = await window.electronAPI.getTasks();
-        var task_data = tasks.map((t) => t.data);
-        // console.log(task_data)
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          selectable: true,
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          dateClick: function(info){
-            $("#myModal").modal();
-          },
-          select: function(info){
-            alert('selected ' + info.startStr + ' to ' + info.endStr + 'id ' + info.id)
-            console.log(info)
-          },
-          events:task_data
-        });
-      
-        calendar.render();
-      };
-  });
-      </script>
-</body>
+    <div
+      class="container"
+      style="margin-top: 1em; margin-left: 10em; margin-right: 7em"
+    >
+      <div id="calendar"></div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var calendarEl = document.getElementById("calendar");
+        window.onload = async function () {
+          const tasks = await window.electronAPI.getTasks();
+          var task_data = tasks.map((t) => t.data).filter((t) => t.status == "undone");
+          // console.log(task_data)
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            selectable: true,
+            headerToolbar: {
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            },
+            dateClick: function (info) {
+              $("#myModal").modal();
+            },
+            select: function (info) {
+              alert(
+                "selected " +
+                  info.startStr +
+                  " to " +
+                  info.endStr +
+                  "id " +
+                  info.id
+              );
+              console.log(info);
+            },
+            events: task_data,
+          });
 
-</html> 
+          calendar.render();
+        };
+      });
+    </script>
+  </body>
+</html>
