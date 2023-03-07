@@ -11,6 +11,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon: path.join(__dirname, 'app-icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
@@ -33,7 +34,7 @@ const createWindow = () => {
   // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  if(!store.get('token') || (store.get('token') == '')){
+  if(!store.has('token') || (store.get('token') == '')){
     mainWindow.loadFile('src/login.html')
   }
   else{
@@ -69,7 +70,7 @@ const createWindow = () => {
 
 const checkToken = async () => {
   const userid = store.get('user_id')
-  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/${userid}`, {headers:{'x-access-token': store.get('token')}}).catch((err)=>store.set('token', ''));
+  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/${userid}`, {headers:{'x-access-token': store.get('token')}}).catch((err)=>store.delete('token'));
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -126,6 +127,10 @@ ipcMain.handle("done-task", async (event, data) => {
   const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/done/${task_id}`, {headers:{'x-access-token': store.get('token')}});
   console.log(res.data);
   return res.data
+})
+
+ipcMain.handle('get-user', async (event, data) =>{
+  return store.get('username');
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
