@@ -96,49 +96,30 @@ a{
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    const cards = [{
-        title: "Task1",
-        start: '2023-03-02'
-      }, {
-        title: "Task2",
-        detail: "Tast2 Do something Yeah",
-        start: '2023-03-10'
-      }, {
-        title: "Task3",
-        detail: "Tast3 Do something Yeah",
-        start: '2023-03-18'
-      }, {
-        title: "Task4",
-        detail: "Tast4 Do something Yeah",
-        start: '2023-03-20'
-      }, {
-        title: "Task5",
-        detail: "Tast5 Do something Yeah",
-        start: '2023-03-25'
-      }, {
-        title: "Task6",
-        detail: "Tast6 Do something Yeah",
-        start: '2023-04-01'
-      }]
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      selectable: true,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      dateClick: function(info){
-        $("#myModal").modal();
-      },
-      select: function(info){
-        alert('selected ' + info.startStr + ' to ' + info.endStr + 'id ' + info.id)
-        console.log(info)
-      },
-      events:cards
-    });
-  
-    calendar.render();
+    window.onload = async function () {
+        const tasks = await window.electronAPI.getTasks();
+        var task_data = tasks.map((t) => t.data);
+        // console.log(task_data)
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          selectable: true,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          dateClick: function(info){
+            $("#myModal").modal();
+          },
+          select: function(info){
+            alert('selected ' + info.startStr + ' to ' + info.endStr + 'id ' + info.id)
+            console.log(info)
+          },
+          events:task_data
+        });
+      
+        calendar.render();
+      };
   });
       </script>
 </body>
