@@ -117,9 +117,16 @@ ipcMain.handle("add-task", async (event, data) =>{
 ipcMain.handle("get-tasks", async () =>{
   const userid = store.get('user_id')
   const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/${userid}`, {headers:{'x-access-token': store.get('token')}});
-  console.log(res.data)
+  // console.log(res.data)
   return res.data
 } )
+
+ipcMain.handle("done-task", async (event, data) => {
+  const task_id = data;
+  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/done/${task_id}`, {headers:{'x-access-token': store.get('token')}});
+  console.log(res.data);
+  return res.data
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

@@ -183,8 +183,11 @@
   </style>
   <script>
     var cardShow = document.getElementById("card-show");
-    const MaskAsDone = (id) =>{
+    const MaskAsDone = async (id) =>{
       console.log(id)
+      const res = await window.electronAPI.doneTask(id)
+      console.log(res)
+      window.location.reload()
     }
 
     const calDay = (d) => {
