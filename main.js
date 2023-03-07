@@ -30,7 +30,7 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)

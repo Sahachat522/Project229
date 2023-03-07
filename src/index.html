@@ -258,7 +258,26 @@
   <div class="sidenav">
     <a href="index.html" class="active"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
     <a href="calendar.html"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
-    <a id="logout-btn" class="logout-btn" href="#" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+    <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+  </div>
+  <div class="modal fade" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Log out?</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to log out?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button id="logout-btn" type="button" class="btn btn-primary">Sure</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
@@ -301,7 +320,6 @@
     </div>
   </div>
 
-
   <script>
     var cardShow = document.getElementById("card-show");
     const add_btn = document.getElementById("add-btn");
@@ -334,7 +352,6 @@
     logout_btn.addEventListener('click', async ()=>{
       const res = await window.electronAPI.logout()
       if(res){
-        window.localStorage.de
         console.log(res)
         window.location.href = "login.html"
       }
