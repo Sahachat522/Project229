@@ -23,13 +23,17 @@ const createWindow = () => {
     width: 700,
     height: 300,
     show:false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
   // and load the index.html of the app.
   mainWindow.webContents.openDevTools()
+  // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  if(!store.get('token')){
+  if(!store.get('token') || (store.get('token') == '')){
     mainWindow.loadFile('src/login.html')
   }
   else{
@@ -63,6 +67,10 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools()
 }
 
+const checkToken = async () => {
+  const userid = store.get('user_id')
+  const res = await axios.get(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/${userid}`, {headers:{'x-access-token': store.get('token')}}).catch((err)=>store.set('token', ''));
+}
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -70,6 +78,7 @@ app.whenReady().then(() => {
   console.log(store.get('token'));
   console.log(store.get('user_id'));
   console.log(store.get('username'));
+  checkToken()
   createWindow()
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -94,14 +103,15 @@ ipcMain.handle("login", async (event,data) => {
 ipcMain.handle("register", async (event,data) => {
   const res = await axios.post("https://barkbark-api-cymdkybzaq-as.a.run.app/register",{username:data.username, email:data.email, password: data.password});
   // const body = await response.text();
-  console.log(res.data)
+  // console.log(res.data)
   return res.data;
 })
 
 ipcMain.handle("add-task", async (event, data) =>{
   data.userid = store.get('user_id')
-  console.log(data)
-  return "got it";
+  const res = axios.post(`https://barkbark-api-cymdkybzaq-as.a.run.app/task/add`, data,{headers:{'x-access-token': store.get('token')}});
+  // console.log(res)
+  return res.status;
 } )
 
 ipcMain.handle("get-tasks", async () =>{
