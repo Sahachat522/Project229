@@ -129,8 +129,16 @@ ipcMain.handle("done-task", async (event, data) => {
   return res.data
 })
 
-ipcMain.handle('get-user', async (event, data) =>{
+ipcMain.handle('get-user', () =>{
   return store.get('username');
+})
+
+ipcMain.handle('logout', ()=>{
+  store.delete('token')
+  store.delete('username')
+  store.delete('user_id')
+  console.log("Logout")
+  return "logout success";
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -5,69 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <script defer src="js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
-    @font-face {
-      font-family: "Nura Font";
-      src: url(./media/nura-pondpond-thin.ttf) format("truetype");
-    }
     body {
-      background-color:rgb(30, 28, 28);
-      font-family: "Nura Font";
-      color: white;
-    }
-    body::-webkit-scrollbar {
-    width: 20px;
-    }
-    body::-webkit-scrollbar-corner {
-        background: rgba(0,0,0,0);
-    }
-    body::-webkit-scrollbar-thumb {
-        background-color: #3c3c3c;
-        border-radius: 10px;
-        border: 4px solid rgba(0,0,0,0);
-        background-clip: content-box;
-        min-width: 32px;
-        min-height: 32px;
-    }
-    .sidenav {
-      height: 100%;
-      width: 4em;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #111;
-      text-align: center;
-      overflow-x: hidden;
-      padding-top: 25px;
-    }
-
-    .sidenav a {
-      text-decoration: none;
-      margin-bottom: 1em;
-      font-size: 18px;
-      color: #d4d3d3;
-      display: block;
-      margin-left: 3px;
-      margin-right: 3px;
-    }
-    .sidenav a:hover {
-      background-color: #525252;
-      color: #f1f1f1;
-      border-radius: 15px;
-    }
-    .sidenav a.active {
-      background-color: rgba(75, 75, 75, 0.215);
-      color: #ffffff;
-      border-radius: 15px;
-    }
-
+    background-color:rgb(30, 28, 28);
+    font-family: "Nura Font";
+    color: white;
+  }
     .main {
       margin-left: 200px;
       padding-right: 4em;
       /* Same as the width of the sidenav */
+    }
+
+   .sidenav a.logout-btn:hover{
+      background-color: rgba(217, 52, 52, 0.57);
     }
 
     @media screen and (max-height: 450px) {
@@ -255,8 +209,8 @@
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
-              <text x="18" y="19" class="percentage">${calDay(card.data.start)}</text>
-              <text x="18" y="24" class="percentage" style="font-size: 0.3em;">Days</text>
+              <text x="18" y="19" class="percentage">${calDay(card.data.start) == 0 ? "Today" : calDay(card.data.start)}</text>
+              <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${calDay(card.data.start) == 0 ? "" : "Days"}</text>
             </svg>
           </div>
           <div class="card-body">
@@ -303,7 +257,8 @@
 
   <div class="sidenav">
     <a href="index.html" class="active"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
-    <a href="calendar.html"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px;"></i></a>
+    <a href="calendar.html"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+    <a id="logout-btn" class="logout-btn" href="#" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
   </div>
 
   <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
@@ -350,6 +305,7 @@
   <script>
     var cardShow = document.getElementById("card-show");
     const add_btn = document.getElementById("add-btn");
+    const logout_btn = document.getElementById("logout-btn");
     var startDate = document.getElementById("startDate");
     var detail = document.getElementById("taskDetail");
     var title = document.getElementById("taskTitle");
@@ -374,6 +330,14 @@
         const res = await window.electronAPI.addTask(task)
         console.log(res)
         window.location.reload()
+    })
+    logout_btn.addEventListener('click', async ()=>{
+      const res = await window.electronAPI.logout()
+      if(res){
+        window.localStorage.de
+        console.log(res)
+        window.location.href = "login.html"
+      }
     })
   </script>
 </body>
