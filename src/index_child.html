@@ -179,10 +179,10 @@
           .filter((t) => t.data.status == "undone");
         var outOfDate = sort_task.filter((t) => calDay(t.data.start) < 0)
         if(outOfDate.length){
-          console.log(outOfDate.length)
+          // console.log(outOfDate.length)
           outOfDate.map(async task  => await window.electronAPI.deleteTask(task.id))
       }
-        console.log(sort_task);
+        // console.log(sort_task);
         cardShow.innerHTML = returnCard(sort_task);
       };
     </script>

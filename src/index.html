@@ -287,23 +287,26 @@
     }
     window.onload = async function () {
       const tasks = await window.electronAPI.getTasks().catch((err)=> window.location.href= "login.html")
-      var sort_task = tasks.sort((t1,t2) => new Date(t1.data.start) - new Date(t2.data.start)).filter(t => t.data.status == "undone")
-      var outOfDate = sort_task.filter((t) => calDay(t.data.start) < 0)
-      sort_task = sort_task.filter((t) => calDay(t.data.start) >= 0)
-      var done_task = tasks.filter((t) => t.data.status == "done")
-      if(outOfDate.length){
-        console.log(outOfDate.length)
-        outOfDate.map(async task  => await window.electronAPI.deleteTask(task.id))
+      // console.log(tasks.length)
+      if(tasks.length != null){
+        var sort_task = tasks.sort((t1,t2) => new Date(t1.data.start) - new Date(t2.data.start)).filter(t => t.data.status == "undone")
+        var outOfDate = sort_task.filter((t) => calDay(t.data.start) < 0)
+        sort_task = sort_task.filter((t) => calDay(t.data.start) >= 0)
+        var done_task = tasks.filter((t) => t.data.status == "done")
+        if(outOfDate.length){
+          // console.log(outOfDate.length)
+          outOfDate.map(async task  => await window.electronAPI.deleteTask(task.id))
+        }
+        cardShow.innerHTML += returnCard(sort_task)
+        doneCardShow.innerHTML += returnDoneCard(done_task)
       }
-      console.log(done_task)
-      console.log(outOfDate)
-      console.log(sort_task)
-      cardShow.innerHTML += returnCard(sort_task)
-      doneCardShow.innerHTML += returnDoneCard(done_task)
+      // console.log(done_task)
+      // console.log(outOfDate)
+      // console.log(sort_task)
       const username = await window.electronAPI.getUser();
       // window.localStorage.setItem('username',username);
       headerTitle.innerHTML = username + "'s Task"
-      console.log(username)
+      // console.log(username)
     }
   </script>
 </head>

@@ -75,17 +75,17 @@ a{
 
     const handleEmail = () =>{
        data.email = email.value
-        console.log(data)
+        // console.log(data)
     }
     const handlePWD = () =>{
         data.password = password.value
-        console.log(data)
+        // console.log(data)
     }
 
     login_btn.addEventListener('click',async (event)=>{
-        console.log(data)
+        // console.log(data)
         const res = await window.electronAPI.login(data)
-        console.log(res)
+        // console.log(res)
         if(res.token){
             window.location.href = './index.html'
         }

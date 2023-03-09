@@ -65,3 +65,22 @@
     color: white;
     font-size: 1em;
   }
+
+  .modal-header{
+    background-color: lightcoral;
+    color: #111;
+    -webkit-text-stroke-width: 1px;
+    border-bottom: none;
+  }
+    .modal-content{
+    background-color: #3c3c3c;
+  }
+  .modal-body{
+    font-size: 20px;
+  }
+  .modal-footer{
+    border-top:none;
+  }
+    .form-group{
+      margin-bottom: 1em;
+    }
